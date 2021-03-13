@@ -10,7 +10,9 @@ var objectPhotos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg",
                     "http://o0.github.io/assets/images/tokyo/hotel2.jpg", 
                     "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 var mapPinsList = document.querySelector('.map__pins');
+var mapFiltersContainer = map.querySelector('.map__filters-container');
 var mapPin = document.querySelector('template').content.querySelector('.map__pin');
+var mapCard = document.querySelector('template').content.querySelector('.map__card'); 
 var objectsList = [];
 var adIndex = 0;
 var coordinates = {
@@ -18,8 +20,8 @@ var coordinates = {
     y: {min: 100, max: 500}
   };
 var PRICE = {
-    min: 1000,
-    max: 1000000
+    min: 100,
+    max: 1000
 };
 var GUESTS = {
     min: 1,
@@ -117,6 +119,8 @@ var getObjectsList = function () {
     return objectsList;
 };
 
+var objects = getObjectsList();
+
 // Создание иконки обьекта на карте
 var renderMapPin = function (array) {
     var mapPinElement = mapPin.cloneNode(true);
@@ -126,8 +130,34 @@ var renderMapPin = function (array) {
     mapPinElement.style.top = array.location.y  + "px";
     return mapPinElement;
 };
-
-var objects = getObjectsList();
+// Создание карточки обьекта
+var renderCard = function (array) {
+    var objectCard = mapCard.cloneNode(true);
+    var objectCardList = objectCard.querySelector('.popup__features');
+    var paragraphs = objectCard.querySelectorAll('p');
+    var objectCardImageList = objectCard.querySelector('.popup__pictures');
+    objectCard.querySelector('h3').textContent = array.offer.title;
+    objectCard.querySelector('small').textContent = array.offer.adress;
+    objectCard.querySelector('.popup__price').textContent = array.offer.price + ' ₽/ночь';
+    objectCard.querySelector('h4').textContent = array.offer.type;
+    paragraphs[2].textContent = array.offer.rooms + ' комнаты для ' + array.offer.guests + ' гостей';
+    paragraphs[3].textContent = 'Заезд после ' + array.offer.checkin + ', выезд до ' + array.offer.checkout;
+    objectCardList.innerHTML = '';
+    for (var i = 0; i < array.offer.features.length; i++) {
+        var objectCardItem = '<li class="feature feature--' + array.offer.features[i] + '"></li>';
+        objectCardList.insertAdjacentHTML('afterbegin', objectCardItem);
+    };
+    paragraphs[4].textContent = array.offer.description;
+    // objectCardImageList.innerHTML = '';
+    // for (var i = 0; i < array.offer.photos.length; i++) {
+    //     var objectCardPhoto = '<li><img src=' + array.offer.photos[i] + '></li>';
+    //     objectCardImageList.insertAdjacentHTML('afterbegin', objectCardPhoto);
+    // };
+    objectCard.querySelector('.popup__avatar').src = array.author.avatar;
+    return objectCard;
+    } 
+  
+map.classList.remove('map--faded');
 
 // Добавление иконок в DocumentFragment
 for (var j = 0; j < objects.length; j++) {
@@ -136,9 +166,12 @@ for (var j = 0; j < objects.length; j++) {
 
 // Добавление иконок в разметку
 mapPinsList.appendChild(fragment);
-// console.log(mapPinsList);
 
-map.classList.remove('map--faded');
+// Добавление карточки обьекта в разметку
+map.insertBefore(renderCard(objects[0]), mapFiltersContainer);
+
+
+
 
 
 

@@ -85,7 +85,7 @@
   <div class="notice">
     <h2 class="notice__title">Ваше объявление</h2>
 
-    <form class="notice__form notice__form--disabled" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="notice__form notice__form--disabled" method="post" enctype="multipart/form-data" autocomplete="off" >
       <fieldset class="notice__header">
         <legend>Ваша фотография (для карты)</legend>
         <div class="notice__photo">
@@ -102,7 +102,8 @@
 
       <fieldset class="form__element form__element--wide">
         <label for="title">Заголовок объявления</label>
-        <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио">
+        <input id="title" name="title" type="text" 
+        placeholder="Милая, уютная квартирка в центре Токио"> 
       </fieldset>
 
       <fieldset class="form__element form__element--wide">
@@ -202,6 +203,9 @@
       </fieldset>
     </form>
   </div>
+  <div class="success hidden">
+        <p class="success__message">Ваше объявление<br>успешно размещено!</p>
+      </div>
 </main>
 
 <footer class="footer container">
@@ -237,9 +241,9 @@
       <li class="feature feature--conditioner"></li>
     </ul>
     <p>Великолепная квартира-студия в центре Токио. Подходит как туристам, так и бизнесменам. Квартира полностью укомплектована и недавно отремонтирована.</p>
-    <ul class="popup__pictures">
-      <li><img src=""></li>
-    </ul>
+    <div class="popup__pictures">
+      <img src="" class='popup__photo' width="45" height="45" alt="Фотография жилья">
+    </div>
   </article>
 
   <button style="left: 200px; top: 400px;" class="map__pin"><img src="img/avatars/user07.png" width="40" height="40" draggable="false"></button>
